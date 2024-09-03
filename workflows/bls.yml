@@ -1,5 +1,6 @@
 on:
   script:
+    github_token: ${{secrets.GITHUB_TOKEN}}
     config:
       limit: 999
       debug: true
@@ -10,8 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print Outputs
+        with:
+          secrets: ${{ toJSON(secrets) }}
         env:
-          secrets: ${{ toJSON(on.rss.outputs) }}
+          secrets: ${{ toJSON(secrets) }}
           title: ${{on.script.outputs.title}}
         run: |
           echo title: $title
