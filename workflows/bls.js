@@ -1,6 +1,6 @@
 module.exports = async function ({helpers}){
 	const teableUrl = "https://app.teable.io/api/table/tblsWx24MUhM7JxkMNx/record";
-	helpers.axios.get(teableUrl, { headers: { "Authorization": `Bearer ${{secrets.TEABLE_KEY}}` } })
+	helpers.axios.get(teableUrl, { headers: { "Authorization": `Bearer ${process.env.TEABLE_KEY}` } })
 	.then((response) => {
 		const records = response.records;
         records.forEach(record => {
