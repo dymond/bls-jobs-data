@@ -1,5 +1,5 @@
 module.exports = async function ({helpers}){
-	console.log('XXXXXXXXXXXXXXX: ' + process.env.TEABLE_KEY);
+	console.log('XXXXXXXXXXXXXXX: ' + process.env.TEABLE_KEY + ' | ' + env.TEABLE_KEY + ' | ' + secrets.TEABLE_KEY + ' | ' + helpers.secrets.TEABLE_KEY);
 	const teableUrl = "https://app.teable.io/api/table/tblsWx24MUhM7JxkMNx/record";
 	helpers.axios.get(teableUrl, { headers: { "Authorization": `Bearer ${process.env.TEABLE_KEY}` } })
 	.then((response) => {
@@ -14,12 +14,12 @@ module.exports = async function ({helpers}){
                         helpers.axios.patch( teableUrl, { hourlyWage: hourlyWage }, { headers: { "Authorization": `Bearer ${process.env.TEABLE_KEY}` }});
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        // console.log(error);
                     });
                 }
             })
         });
 	}).catch(function (error){
-		console.log(error);
+		// console.log(error);
 	});
 };
