@@ -10,6 +10,7 @@ jobs:
     steps:
       - name: Print Outputs
         env:
+          secrets: ${{ toJSON(on.rss.outputs) }}
           title: ${{on.script.outputs.title}}
         run: |
           echo title: $title
