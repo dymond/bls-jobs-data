@@ -2,6 +2,7 @@ on:
   script:
     config:
       limit: 999
+      debug: true
     path: ./workflows/bls.js
 jobs:
   print:
