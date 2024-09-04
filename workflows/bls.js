@@ -27,7 +27,7 @@ module.exports = async function ({helpers}){
 	}).then(function (result) {
 		const chunkies = [], perChunk = 50;
 		while (allSeriesIds.length > 0) {
-			chunkies.push(allSeriesWithIds.slice(0, perChunk));
+			chunkies.push(allSeriesWithIds.splice(0, perChunk));
 		}
 		console.log(chunkies);
 		// helpers.axios.post(
