@@ -11,7 +11,9 @@ module.exports = async function ({helpers}){
 			for (const key of Object.keys(degreeData)) {
 				if (key === 'hourlySeriesId') {
 					if (degreeData[key]) {
-						allSeriesIds.push({degreeData['degreeCode']: degreeData[key]});
+						const code = degreeData['degreeCode'];
+						const seriesId = degreeData[key];
+						allSeriesIds.push({code:seriesId});
 					}
 				}
 			}
