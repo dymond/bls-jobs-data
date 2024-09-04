@@ -29,7 +29,6 @@ module.exports = async function ({helpers}){
 	}).catch(function (error){
 		console.log(error);
 	}).then(function (result) {
-		console.log(allSeriesIds);
 		chunks(allSeriesIds,50).forEach((chunk) => {
 			helpers.axios.post(
 				blsUrl,
@@ -37,9 +36,10 @@ module.exports = async function ({helpers}){
 			).then(function (response){
 				if (response.status === 200) {
 					const series = response.data.Results.series;
-					console.log(series);
 					series.forEach((entry) => {
+						console.log(entry);
 						const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
+						console.log(seriesObj);
 						if ( seriesObj.degreeCode ) {
 							if (entry.seriesID.slice(-2) === '08') {
 								teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
