@@ -35,10 +35,10 @@ module.exports = async function ({helpers}){
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
 					if ( seriesObj.degreeCode ) {
 						if (entry.seriesID.slice(-2) === '13') {
-							teableData.push({"id":seriesObj.recordId, "degreeCode":seriesObj.degreeCode, "hourlyWage": entry.data[0]?.value });
+							teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
 						}
 						if (entry.seriesID.slice(-2) === '08') {
-							teableData.push({"id":seriesObj.recordId, "degreeCode":seriesObj.degreeCode, "annualWage": entry.data[0]?.value });
+							teableData.push({"id":seriesObj.recordId, "fields":{"annualWage": entry.data[0]?.value}});
 						}
 					}
 				});
@@ -46,7 +46,7 @@ module.exports = async function ({helpers}){
 		}).catch(function (error){
 			console.log(error);
 		}).then(function () {
-			const newSeriesData = {"fieldKeyType":"id","typecast":true,"records":teableData,"order":{"viewId":"string","anchorId":"string","position":"before"}};
+			const newSeriesData = {"fieldKeyType":"name","records":teableData};
 			helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }})
 			.then(function (response){
 				console.log(response);
