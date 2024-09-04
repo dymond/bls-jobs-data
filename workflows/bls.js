@@ -5,12 +5,13 @@ module.exports = async function ({helpers}){
 	.then((response) => {
 		const records = response.data.records;
         records.forEach(record => {
-			Object.keys(record.fields).forEach(key => {
+			const degreeData = record.fields;
+			Object.keys(degreeData).forEach(key => {
 				console.log(key);
                 if (key === 'hourlySeriesId') {
-					console.log(record[key]);
+					console.log(degreeData[key]);
                     helpers.axios.get(
-                        `https://api.bls.gov/publicAPI/v2/timeseries/data/${record[key]}?latest=true&registrationkey=${env_secrets.BLS_KEY}`
+                        `https://api.bls.gov/publicAPI/v2/timeseries/data/${degreeData[key]}?latest=true&registrationkey=${env_secrets.BLS_KEY}`
                     ).then(function (response) {
 						console.log('ZZZZZZZZZZ');
 						console.log(response.data);
