@@ -1,7 +1,7 @@
 module.exports = async function ({helpers}){
 	const chunks = (array, size) =>
     Array.from(
-        new Array(Math.ceil(a.length / size)), (_, i) => a.slice(i * size, i * size + size)
+        new Array(Math.ceil(array.length / size)), (_, i) => array.slice(i * size, i * size + size)
     );
 	const env_secrets = JSON.parse(process.env['INPUT_JSON-SECRETS']);
 	const blsUrl = 'https://api.bls.gov/publicAPI/v2/timeseries/data/';
