@@ -31,6 +31,7 @@ module.exports = async function ({helpers}){
 			if (response.status === 200) {
 				const hourlyWage = response.data.Results.series;
 				hourlyWage.forEach((entry) => {
+					console.log(entry);
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
 					if (seriesObj.degreeCode) {
 						console.log({ records: [{ "id": seriesObj.degreeCode, "fields": {"hourlyWage":hourlyWage} }] });
