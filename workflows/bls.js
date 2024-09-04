@@ -11,7 +11,7 @@ module.exports = async function ({helpers}){
 			for (const key of Object.keys(degreeData)) {
 				if (key === 'hourlySeriesId') {
 					if (degreeData[key]) {
-						allSeriesIds.push(`{${degreeData['degreeCode']}: ${degreeData[key]}}`);
+						allSeriesIds.push({degreeData['degreeCode']: degreeData[key]});
 					}
 				}
 			}
