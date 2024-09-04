@@ -39,7 +39,6 @@ module.exports = async function ({helpers}){
 					series.forEach((entry) => {
 						allSeriesWithIds.find(function(x) {
 							if( x.seriesId === entry.seriesID) {
-								console.log(x.degreeCode);
 								if ( x.degreeCode ) {
 									if (entry.seriesID.slice(-2) === '08') {
 										teableData.push({"id":x.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
@@ -57,9 +56,6 @@ module.exports = async function ({helpers}){
 			}).then(function () {
 				const newSeriesData = {"fieldKeyType":"name","typecast":true,"records":teableData};
 				helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }})
-				.then(function (response){
-					console.log(response);
-				})
 				.catch(function (error){
 					console.log(error);
 				});
