@@ -38,9 +38,9 @@ module.exports = async function ({helpers}){
 						tableFields.hourlyWage = entry.data[0]?.value;
 					}
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
+					const newSeriesData = { records: [{ "id": seriesObj.degreeCode, "fields": tableFields }] };
 					if (seriesObj.degreeCode) {
-						console.table({ tableFields });
-						// helpers.axios.patch( teableUrl, { records: [{ "id": seriesObj.degreeCode, "fields": {"hourlyWage":hourlyWage} }] }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
+						helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
 					}
 				});
 			}
