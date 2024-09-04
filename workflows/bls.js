@@ -39,7 +39,7 @@ module.exports = async function ({helpers}){
 					}
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
 					if (seriesObj.degreeCode) {
-						console.table({ records: [{ "id": seriesObj.degreeCode, "fields": tableFields }] });
+						console.table({ tableFields });
 						// helpers.axios.patch( teableUrl, { records: [{ "id": seriesObj.degreeCode, "fields": {"hourlyWage":hourlyWage} }] }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
 					}
 				});
