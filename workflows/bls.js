@@ -4,11 +4,12 @@ module.exports = async function ({helpers}){
 	const teableUrl = 'https://app.teable.io/api/table/tblsWx24MUhM7JxkMNx/record';
 	let allSeriesIds = [];
 	let allSeriesWithIds = [];
-	let teablePush = [];
+	let teableData = [];
 	helpers.axios.get(teableUrl, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` } })
 	.then(async (response) => {
 		const records = response.data.records;
 		for (const record of records) {
+			const recordId = record.id;
 			const degreeData = record.fields;
 			for (const key of Object.keys(degreeData)) {
 				if (key === 'hourlySeriesId' || key === 'annualSeriesId') {
@@ -16,7 +17,7 @@ module.exports = async function ({helpers}){
 						const code = degreeData['degreeCode'];
 						const seriesId = degreeData[key];
 						allSeriesIds.push(seriesId);
-						allSeriesWithIds.push({degreeCode:code, seriesId:seriesId});
+						allSeriesWithIds.push({recordId:recordId, degreeCode:code, seriesId:seriesId});
 					}
 				}
 			}
@@ -30,24 +31,22 @@ module.exports = async function ({helpers}){
 		).then(function (response){
 			if (response.status === 200) {
 				const series = response.data.Results.series;
-				const tableFields = {};
 				series.forEach((entry) => {
-					if (entry.seriesID.slice(-2) === '13') {
-						tableFields.annualWage = entry.data[0]?.value;
-					}
-					if (entry.seriesID.slice(-2) === '08') {
-						tableFields.hourlyWage = entry.data[0]?.value;
-					}
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
-					if ( seriesObj.degreeCode && !teablePush.find(o => o.id === seriesObj.degreeCode) ) {
-						teablePush.push({ "id": seriesObj.degreeCode, "fields": tableFields });
+					if ( seriesObj.degreeCode ) {
+						if (entry.seriesID.slice(-2) === '13') {
+							teableData.push({"id":seriesObj.recordId, "degreeCode":seriesObj.degreeCode, "hourlyWage": entry.data[0]?.value });
+						}
+						if (entry.seriesID.slice(-2) === '08') {
+							teableData.push({"id":seriesObj.recordId, "degreeCode":seriesObj.degreeCode, "annualWage": entry.data[0]?.value });
+						}
 					}
 				});
 			}
 		}).catch(function (error){
 			console.log(error);
 		}).then(function () {
-			const newSeriesData = {"fieldKeyType":"id","typecast":true,"records":teablePush,"order":{"viewId":"string","anchorId":"string","position":"before"}};
+			const newSeriesData = {"fieldKeyType":"id","typecast":true,"records":teableData,"order":{"viewId":"string","anchorId":"string","position":"before"}};
 			helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }})
 			.then(function (response){
 				console.log(response);
