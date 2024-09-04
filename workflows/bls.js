@@ -39,18 +39,16 @@ module.exports = async function ({helpers}){
 					series.forEach((entry) => {
 						allSeriesWithIds.find(function(x) {
 							if( x.seriesId === entry.seriesID) {
-								console.log(x);
+								if ( x.degreeCode ) {
+									if (entry.seriesID.slice(-2) === '08') {
+										teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
+									}
+									if (entry.seriesID.slice(-2) === '13') {
+										teableData.push({"id":seriesObj.recordId, "fields":{"annualWage": entry.data[0]?.value}});
+									}
+								}
 							}
 						});
-						console.log(seriesObj);
-						if ( seriesObj.degreeCode ) {
-							if (entry.seriesID.slice(-2) === '08') {
-								teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
-							}
-							if (entry.seriesID.slice(-2) === '13') {
-								teableData.push({"id":seriesObj.recordId, "fields":{"annualWage": entry.data[0]?.value}});
-							}
-						}
 					});
 				}
 			}).catch(function (error){
