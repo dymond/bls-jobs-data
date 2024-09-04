@@ -39,7 +39,7 @@ module.exports = async function ({helpers}){
 						tableFields.hourlyWage = entry.data[0]?.value;
 					}
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
-					if ( seriesObj.degreeCode && !teablePush.find(o => o.id) ) {
+					if ( seriesObj.degreeCode && !teablePush.find(o => o.id === seriesObj.degreeCode) ) {
 						teablePush.push({ "id": seriesObj.degreeCode, "fields": tableFields });
 					}
 				});
