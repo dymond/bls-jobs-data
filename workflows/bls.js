@@ -21,19 +21,19 @@ module.exports = async function ({helpers}){
 	}).catch(function (error){
 		console.log(error);
 	}).then(function (result) {
-		console.log(allSeriesIds);
-		// helpers.axios.post(
-		// 	blsUrl,
-		// 	{ "seriesid": allSeriesIds, "registrationkey": env_secrets.BLS_KEY2, latest:true }
-		// ).then(function (response){
-		// 	if (response.status === 200) {
-		// 		const hourlyWage = response.data.Results.series;
-		// 		console.log(hourlyWage);
-		// 		// helpers.axios.patch( teableUrl, { hourlyWage: hourlyWage }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
-		// 	}
-		// }).catch(function (error){
-		// 	console.log(error);
-		// });
+		console.log(Object.values(allSeriesIds));
+		helpers.axios.post(
+			blsUrl,
+			{ "seriesid": Object.values(allSeriesIds), "registrationkey": env_secrets.BLS_KEY2, latest:true }
+		).then(function (response){
+			if (response.status === 200) {
+				const hourlyWage = response.data.Results.series;
+				console.log(hourlyWage);
+				// helpers.axios.patch( teableUrl, { hourlyWage: hourlyWage }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
+			}
+		}).catch(function (error){
+			console.log(error);
+		});
 	});
 
 };
