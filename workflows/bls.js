@@ -47,7 +47,7 @@ module.exports = async function ({helpers}){
 		}).catch(function (error){
 			console.log(error);
 		}).then(function () {
-			const newSeriesData = {"fieldKeyType":"id","typecast":true,"records":teablePush};
+			const newSeriesData = {"fieldKeyType":"id","typecast":true,"records":teablePush,"order":{"viewId":"string","anchorId":"string","position":"before"}};
 			helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }})
 			.then(function (response){
 				console.log(response);
