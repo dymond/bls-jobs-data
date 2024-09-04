@@ -13,7 +13,7 @@ module.exports = async function ({helpers}){
 					if (degreeData[key]) {
 						const code = degreeData['degreeCode'];
 						const seriesId = degreeData[key];
-						allSeriesIds.push({code:seriesId});
+						allSeriesIds.push({[code]:seriesId});
 					}
 				}
 			}
