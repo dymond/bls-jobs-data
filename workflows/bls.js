@@ -41,9 +41,9 @@ module.exports = async function ({helpers}){
 						allSeriesWithIds.find(function(x) {
 							console.log(x.seriesId, entry.seriesID);
 							if( x.seriesId === entry.seriesID) {
-								
+
 							}
-						};
+						});
 						console.log(seriesObj);
 						if ( seriesObj.degreeCode ) {
 							if (entry.seriesID.slice(-2) === '08') {
