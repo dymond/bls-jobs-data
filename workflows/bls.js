@@ -7,7 +7,8 @@ module.exports = async function ({helpers}){
         records.forEach(record => {
 			Object.entries(record.fields).forEach(field => {
 				console.log('YYYYYYYYYYY');
-				console.log(Object.entries(field));
+				console.log(typeof field);
+				console.log(field.length);
                 if (field.hourlySeriesId) {
                     helpers.axios.get(
                         `https://api.bls.gov/publicAPI/v2/timeseries/data/${field.hourlySeriesId}?latest=true&registrationkey=${env_secrets.BLS_KEY}`
