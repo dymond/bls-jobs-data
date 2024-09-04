@@ -25,27 +25,31 @@ module.exports = async function ({helpers}){
 	}).catch(function (error){
 		console.log(error);
 	}).then(function (result) {
-		helpers.axios.post(
-			blsUrl,
-			{ "seriesid": Object.values(allSeriesIds), "registrationkey": env_secrets.BLS_KEY2, latest:true }
-		).then(function (response){
-			if (response.status === 200) {
-				const series = response.data.Results.series;
-				series.forEach((entry) => {
-					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
-					if ( seriesObj.degreeCode ) {
-						if (entry.seriesID.slice(-2) === '13') {
-							teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
-						}
-						if (entry.seriesID.slice(-2) === '08') {
-							teableData.push({"id":seriesObj.recordId, "fields":{"annualWage": entry.data[0]?.value}});
-						}
+		const perChunk = 50;
+		let promises = [];
+		for (i = 0; i < perChunk; i++) {
+			promises.push(
+				helpers.axios.post(blsUrl, { "seriesid": Object.values(allSeriesIds), "registrationkey": env_secrets.BLS_KEY2, latest:true })
+				.then(response => {
+					if (response.status === 200) {
+						const series = response.data.Results.series;
+						series.forEach((entry) => {
+							const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
+							if ( seriesObj.degreeCode ) {
+								if (entry.seriesID.slice(-2) === '13') {
+									teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
+								}
+								if (entry.seriesID.slice(-2) === '08') {
+									teableData.push({"id":seriesObj.recordId, "fields":{"annualWage": entry.data[0]?.value}});
+								}
+							}
+						});
 					}
-				});
-			}
-		}).catch(function (error){
-			console.log(error);
-		}).then(function () {
+				})
+			)
+		}
+
+		Promise.all(promises).then(function (){
 			const newSeriesData = {"fieldKeyType":"name","records":teableData};
 			helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }})
 			.then(function (response){
@@ -54,6 +58,8 @@ module.exports = async function ({helpers}){
 			.catch(function (error){
 				console.log(error);
 			});
+		}).catch(function (error){
+			console.log(error);
 		});
 	});
 
