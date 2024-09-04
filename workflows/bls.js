@@ -6,6 +6,7 @@ module.exports = async function ({helpers}){
 		const records = response.data.records;
         records.forEach(record => {
 			Object.keys(record).forEach(key => {
+				console.log(key);
                 if (key === 'hourlySeriesId') {
 					console.log(record[key]);
                     helpers.axios.get(
