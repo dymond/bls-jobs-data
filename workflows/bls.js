@@ -38,7 +38,12 @@ module.exports = async function ({helpers}){
 					const series = response.data.Results.series;
 					series.forEach((entry) => {
 						console.log(entry);
-						const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
+						allSeriesWithIds.find(function(x) {
+							console.log(x.seriesId, entry.seriesID);
+							if( x.seriesId === entry.seriesID) {
+								
+							}
+						};
 						console.log(seriesObj);
 						if ( seriesObj.degreeCode ) {
 							if (entry.seriesID.slice(-2) === '08') {
