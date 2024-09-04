@@ -3,6 +3,7 @@ module.exports = async function ({helpers}){
 	const blsUrl = 'https://api.bls.gov/publicAPI/v2/timeseries/data/';
 	const teableUrl = 'https://app.teable.io/api/table/tblsWx24MUhM7JxkMNx/record';
 	let allSeriesIds = [];
+	let allSeriesWithIds = [];
 	helpers.axios.get(teableUrl, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` } })
 	.then(async (response) => {
 		const records = response.data.records;
@@ -13,7 +14,8 @@ module.exports = async function ({helpers}){
 					if (degreeData[key]) {
 						const code = degreeData['degreeCode'];
 						const seriesId = degreeData[key];
-						allSeriesIds.push({[code]:seriesId});
+						allSeriesIds.push(seriesId);
+						allSeriesWithIds.push({[code]:seriesId});
 					}
 				}
 			}
