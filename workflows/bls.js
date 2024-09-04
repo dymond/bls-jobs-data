@@ -25,40 +25,41 @@ module.exports = async function ({helpers}){
 	}).catch(function (error){
 		console.log(error);
 	}).then(function (result) {
-		let i = 1;
-		while (i < allSeriesWithIds.length) {
-			helpers.axios.post(
-				blsUrl,
-				{ "seriesid": Object.values(allSeriesIds).splice(0,50), "registrationkey": env_secrets.BLS_KEY2, latest:true }
-			).then(function (response){
-				if (response.status === 200) {
-					const series = response.data.Results.series;
-					series.forEach((entry) => {
-						const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
-						if ( seriesObj.degreeCode ) {
-							if (entry.seriesID.slice(-2) === '13') {
-								teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
-							}
-							if (entry.seriesID.slice(-2) === '08') {
-								teableData.push({"id":seriesObj.recordId, "fields":{"annualWage": entry.data[0]?.value}});
-							}
-						}
-					});
-				}
-			}).catch(function (error){
-				console.log(error);
-			}).then(function () {
-				const newSeriesData = {"fieldKeyType":"name","records":teableData};
-				helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }})
-				.then(function (response){
-					console.log(response);
-				})
-				.catch(function (error){
-					console.log(error);
-				});
-			});
-			i++;
+		const chunkies = [], perChunk = 50;
+		while (allSeriesIds.length > 0) {
+			chunkies.push(allSeriesWithIds.slice(0, perChunk));
 		}
+		console.log(chunkies);
+		// helpers.axios.post(
+		// 	blsUrl,
+		// 	{ "seriesid": Object.values(allSeriesIds), "registrationkey": env_secrets.BLS_KEY2, latest:true }
+		// ).then(function (response){
+		// 	if (response.status === 200) {
+		// 		const series = response.data.Results.series;
+		// 		series.forEach((entry) => {
+		// 			const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
+		// 			if ( seriesObj.degreeCode ) {
+		// 				if (entry.seriesID.slice(-2) === '13') {
+		// 					teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
+		// 				}
+		// 				if (entry.seriesID.slice(-2) === '08') {
+		// 					teableData.push({"id":seriesObj.recordId, "fields":{"annualWage": entry.data[0]?.value}});
+		// 				}
+		// 			}
+		// 		});
+		// 	}
+		// }).catch(function (error){
+		// 	console.log(error);
+		// }).then(function () {
+		// 	const newSeriesData = {"fieldKeyType":"name","records":teableData};
+		// 	helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }})
+		// 	.then(function (response){
+		// 		console.log(response);
+		// 	})
+		// 	.catch(function (error){
+		// 		console.log(error);
+		// 	});
+		// });
 	});
 
 };
