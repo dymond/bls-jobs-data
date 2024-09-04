@@ -37,11 +37,9 @@ module.exports = async function ({helpers}){
 				if (response.status === 200) {
 					const series = response.data.Results.series;
 					series.forEach((entry) => {
-						console.log(entry);
 						allSeriesWithIds.find(function(x) {
-							console.log(x.seriesId, entry.seriesID);
 							if( x.seriesId === entry.seriesID) {
-
+								console.log(x);
 							}
 						});
 						console.log(seriesObj);
