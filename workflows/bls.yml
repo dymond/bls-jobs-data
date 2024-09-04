@@ -11,10 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print Outputs
-        with:
-          secrets: ${{ toJSON(secrets) }}
         env:
-          secrets: ${{ toJSON(secrets) }}
           title: ${{on.script.outputs.title}}
+          secrets: ${{ toJSON(secrets) }}
         run: |
           echo title: $title
