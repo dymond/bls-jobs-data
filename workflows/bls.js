@@ -30,7 +30,7 @@ module.exports = async function ({helpers}){
 		console.log(error);
 	}).then(function (result) {
 		console.log();
-		chunks(allSeriesWithIds,50).forEach((chunk) => {
+		chunks(allSeriesIds,50).forEach((chunk) => {
 			helpers.axios.post(
 				blsUrl,
 				{ "seriesid": Object.values(chunk), "registrationkey": env_secrets.BLS_KEY2, latest:true }
