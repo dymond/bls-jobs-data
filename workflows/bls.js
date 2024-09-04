@@ -55,7 +55,7 @@ module.exports = async function ({helpers}){
 			}).catch(function (error){
 				console.log(error);
 			}).then(function () {
-				const newSeriesData = {"fieldKeyType":"name","records":teableData};
+				const newSeriesData = {"fieldKeyType":"name","typecast":true,"records":teableData};
 				helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }})
 				.then(function (response){
 					console.log(response);
