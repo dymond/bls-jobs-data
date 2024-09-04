@@ -11,7 +11,7 @@ module.exports = async function ({helpers}){
 					if ( degreeData[key] ) {
 						console.log(`${degreeData['degreeCode']}: ${degreeData[key]}`);
 						helpers.axios.get(
-							`https://api.bls.gov/publicAPI/v2/timeseries/data/${degreeData[key]}?latest=true&registrationkey=${env_secrets.BLS_KEY}`
+							`https://api.bls.gov/publicAPI/v2/timeseries/data/${degreeData[key]}?latest=true&registrationkey=${env_secrets.BLS_KEY_2}`
 						).then(function (response) {
 							console.log('ZZZZZZZZZZ');
 							console.log(response.data);
