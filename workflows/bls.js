@@ -40,10 +40,10 @@ module.exports = async function ({helpers}){
 					series.forEach((entry) => {
 						const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
 						if ( seriesObj.degreeCode ) {
-							if (entry.seriesID.slice(-2) === '13') {
+							if (entry.seriesID.slice(-2) === '08') {
 								teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
 							}
-							if (entry.seriesID.slice(-2) === '08') {
+							if (entry.seriesID.slice(-2) === '13') {
 								teableData.push({"id":seriesObj.recordId, "fields":{"annualWage": entry.data[0]?.value}});
 							}
 						}
