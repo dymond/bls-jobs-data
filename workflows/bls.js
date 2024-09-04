@@ -38,7 +38,9 @@ module.exports = async function ({helpers}){
 					const series = response.data.Results.series;
 					series.forEach((entry) => {
 						allSeriesWithIds.find(function(x) {
+							console.log(x);
 							if( x.seriesId === entry.seriesID) {
+								console.log(x.degreeCode);
 								if ( x.degreeCode ) {
 									if (entry.seriesID.slice(-2) === '08') {
 										teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
