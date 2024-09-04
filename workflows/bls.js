@@ -20,6 +20,7 @@ module.exports = async function ({helpers}){
 					if (degreeData[key]) {
 						const code = degreeData['degreeCode'];
 						const seriesId = degreeData[key];
+						console.log(seriesId)
 						allSeriesIds.push(seriesId);
 						allSeriesWithIds.push({recordId:recordId, degreeCode:code, seriesId:seriesId});
 					}
@@ -29,7 +30,7 @@ module.exports = async function ({helpers}){
 	}).catch(function (error){
 		console.log(error);
 	}).then(function (result) {
-		console.log();
+		console.log(allSeriesIds);
 		chunks(allSeriesIds,50).forEach((chunk) => {
 			helpers.axios.post(
 				blsUrl,
