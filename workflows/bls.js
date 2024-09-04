@@ -5,6 +5,8 @@ module.exports = async function ({helpers}){
 	const teableUrl = "https://app.teable.io/api/table/tblsWx24MUhM7JxkMNx/record";
 	helpers.axios.get(teableUrl, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` } })
 	.then((response) => {
+		console.log('YYYYYYYYYY');
+		console.log(response);
 		const records = response.records;
         records.forEach(record => {
             record.fields.forEach(field => {
@@ -12,6 +14,8 @@ module.exports = async function ({helpers}){
                     helpers.axios.get(
                         `https://api.bls.gov/publicAPI/v2/timeseries/data/${field.hourlySeriesId}?latest=true&registrationkey=${env_secrets.BLS_KEY}`
                     ).then(function (response) {
+						console.log('ZZZZZZZZZZ');
+						console.log(response);
                         const hourlyWage = response.Results.series[0]?.data[0]?.value;
                         helpers.axios.patch( teableUrl, { hourlyWage: hourlyWage }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
                     })
