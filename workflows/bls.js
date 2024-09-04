@@ -15,7 +15,7 @@ module.exports = async function ({helpers}){
 							`https://api.bls.gov/publicAPI/v2/timeseries/data/${degreeData[key]}?latest=true&registrationkey=${env_secrets.BLS_KEY2}`
 						).then(function (response){
 							if (response.status === 200) {
-								console.log(response.Results);
+								console.log(response.data);
 								const hourlyWage = response.data.Results.series[0]?.data[0]?.value;
 								// helpers.axios.patch( teableUrl, { hourlyWage: hourlyWage }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
 							} else if (response.status === 429) {
