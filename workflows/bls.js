@@ -23,15 +23,14 @@ module.exports = async function ({helpers}){
 	}).catch(function (error){
 		console.log(error);
 	}).then(function (result) {
-		console.log(Object.values(allSeriesIds));
 		helpers.axios.post(
 			blsUrl,
 			{ "seriesid": Object.values(allSeriesIds), "registrationkey": env_secrets.BLS_KEY2, latest:true }
 		).then(function (response){
 			if (response.status === 200) {
-				const hourlyWage = response.data.Results.series;
-				hourlyWage.forEach((entry) => {
-					console.log(entry);
+				const series = response.data.Results.series;
+				series.forEach((entry) => {
+					const hourlyWage = entry.data.value;
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
 					if (seriesObj.degreeCode) {
 						console.log({ records: [{ "id": seriesObj.degreeCode, "fields": {"hourlyWage":hourlyWage} }] });
