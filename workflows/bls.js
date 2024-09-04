@@ -11,7 +11,7 @@ module.exports = async function ({helpers}){
 			for (const key of Object.keys(degreeData)) {
 				if (key === 'hourlySeriesId') {
 					if (degreeData[key]) {
-						allSeriesIds.push(degreeData[key]);
+						allSeriesIds.push(`${degreeData['degreeCode']}:${degreeData[key]}`);
 					}
 				}
 			}
@@ -25,7 +25,7 @@ module.exports = async function ({helpers}){
 			{ "seriesid": allSeriesIds, "registrationkey": env_secrets.BLS_KEY2, latest:true }
 		).then(function (response){
 			if (response.status === 200) {
-				const hourlyWage = response.data
+				const hourlyWage = response.data.Results.series;
 				console.log(hourlyWage);
 				// helpers.axios.patch( teableUrl, { hourlyWage: hourlyWage }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
 			}
