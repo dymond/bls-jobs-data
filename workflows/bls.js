@@ -16,12 +16,12 @@ module.exports = async function ({helpers}){
                         helpers.axios.patch( teableUrl, { hourlyWage: hourlyWage }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
                     })
                     .catch(function (error) {
-                        // console.log(error);
+                        console.log(error);
                     });
                 }
             })
         });
 	}).catch(function (error){
-		// console.log(error);
+		console.log(error);
 	});
 };
