@@ -10,7 +10,7 @@ module.exports = async function ({helpers}){
 		for (const record of records) {
 			const degreeData = record.fields;
 			for (const key of Object.keys(degreeData)) {
-				if (key === 'hourlySeriesId') {
+				if (key === 'hourlySeriesId' || key === 'annualSeriesId') {
 					if (degreeData[key]) {
 						const code = degreeData['degreeCode'];
 						const seriesId = degreeData[key];
@@ -30,6 +30,7 @@ module.exports = async function ({helpers}){
 			if (response.status === 200) {
 				const series = response.data.Results.series;
 				series.forEach((entry) => {
+					console.log(entry);
 					const hourlyWage = entry.data[0]?.value;
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
 					console.log(hourlyWage);
