@@ -22,7 +22,7 @@ module.exports = async function ({helpers}){
 		console.log(allSeriesIds);
 		helpers.axios.post(
 			blsUrl,
-			{ "seriesid": seriesIds, "registrationkey": env_secrets.BLS_KEY2, latest:true }
+			{ "seriesid": allSeriesIds, "registrationkey": env_secrets.BLS_KEY2, latest:true }
 		).then(function (response){
 			if (response.status === 200) {
 				const hourlyWage = response.data
