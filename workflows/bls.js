@@ -5,7 +5,7 @@ module.exports = async function ({helpers}){
 	.then((response) => {
 		const records = response.data.records;
         records.forEach(record => {
-	        const fields = record.fields;
+	        const fields = JSON.parse(record.fields);
 	        console.log('YYYYYYYYYY');
 	        console.log(fields);
             fields.forEach(field => {
