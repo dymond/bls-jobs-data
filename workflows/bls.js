@@ -30,7 +30,7 @@ module.exports = async function ({helpers}){
 			if (response.status === 200) {
 				const series = response.data.Results.series;
 				series.forEach((entry) => {
-					const hourlyWage = entry.data.value;
+					const hourlyWage = entry.data[0]?.value;
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
 					console.log(hourlyWage);
 					if (seriesObj.degreeCode) {
