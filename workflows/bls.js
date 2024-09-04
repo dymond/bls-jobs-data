@@ -20,7 +20,7 @@ module.exports = async function ({helpers}){
 					if (degreeData[key]) {
 						const code = degreeData['degreeCode'];
 						const seriesId = degreeData[key];
-						console.log(seriesId)
+						console.log(code)
 						allSeriesIds.push(seriesId);
 						allSeriesWithIds.push({recordId:recordId, degreeCode:code, seriesId:seriesId});
 					}
