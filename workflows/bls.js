@@ -30,8 +30,8 @@ module.exports = async function ({helpers}){
 		).then(function (response){
 			if (response.status === 200) {
 				const series = response.data.Results.series;
+				const tableFields = {};
 				series.forEach((entry) => {
-					const tableFields = {};
 					if (entry.seriesID.slice(-2) === '13') {
 						tableFields.annualWage = entry.data[0]?.value;
 					}
