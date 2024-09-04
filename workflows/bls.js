@@ -1,12 +1,12 @@
 module.exports = async function ({helpers}){
-	console.log('XXXXXXXXXX');
 	const env_secrets = JSON.parse(process.env['INPUT_JSON-SECRETS']);
-	console.log(env_secrets.TEABLE_KEY);
 	const teableUrl = "https://app.teable.io/api/table/tblsWx24MUhM7JxkMNx/record";
 	helpers.axios.get(teableUrl, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` } })
 	.then((response) => {
 		const records = response.data.records;
         records.forEach(record => {
+			console.log('YYYYYYYYYY');
+			console.log(record);
             record.data.fields.forEach(field => {
                 if (field.hourlySeriesId) {
                     helpers.axios.get(
