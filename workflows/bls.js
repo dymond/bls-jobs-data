@@ -15,7 +15,7 @@ module.exports = async function ({helpers}){
 						const code = degreeData['degreeCode'];
 						const seriesId = degreeData[key];
 						allSeriesIds.push(seriesId);
-						allSeriesWithIds.push({[code]:seriesId});
+						allSeriesWithIds.push({degreeCode:code, seriesId:seriesId});
 					}
 				}
 			}
@@ -30,8 +30,13 @@ module.exports = async function ({helpers}){
 		).then(function (response){
 			if (response.status === 200) {
 				const hourlyWage = response.data.Results.series;
-				console.log(hourlyWage);
-				// helpers.axios.patch( teableUrl, { hourlyWage: hourlyWage }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
+				hourlyWage.forEach((entry) => {
+					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
+					if (seriesObj.degreeCode) {
+						console.log({ records: [{ "id": seriesObj.degreeCode, "fields": {"hourlyWage":hourlyWage} }] });
+						// helpers.axios.patch( teableUrl, { records: [{ "id": seriesObj.degreeCode, "fields": {"hourlyWage":hourlyWage} }] }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
+					}
+				});
 			}
 		}).catch(function (error){
 			console.log(error);
