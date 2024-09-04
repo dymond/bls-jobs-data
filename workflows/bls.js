@@ -5,7 +5,7 @@ module.exports = async function ({helpers}){
 	.then((response) => {
 		const records = response.data.records;
         records.forEach(record => {
-			Object.keys(record).forEach(key => {
+			Object.keys(record.fields).forEach(key => {
 				console.log(key);
                 if (key === 'hourlySeriesId') {
 					console.log(record[key]);
