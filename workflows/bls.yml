@@ -1,6 +1,6 @@
 on:
   script:
-    github_token: ${{secrets.GITHUB_TOKEN}}
+    github_token: ${{ secrets.GITHUB_TOKEN }}
     config:
       limit: 999
     path: ./workflows/bls.js
@@ -11,5 +11,5 @@ jobs:
     steps:
       - name: Print Outputs
         env:
-          title: ${{on.script.outputs.title}}
+          title: ${{ on.script.outputs.title }}
           secrets: ${{ toJSON(secrets) }}
