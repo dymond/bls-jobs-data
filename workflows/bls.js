@@ -4,6 +4,7 @@ module.exports = async function ({helpers}){
 	const teableUrl = 'https://app.teable.io/api/table/tblsWx24MUhM7JxkMNx/record';
 	let allSeriesIds = [];
 	let allSeriesWithIds = [];
+	let teablePush = [];
 	helpers.axios.get(teableUrl, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` } })
 	.then(async (response) => {
 		const records = response.data.records;
@@ -38,14 +39,16 @@ module.exports = async function ({helpers}){
 						tableFields.hourlyWage = entry.data[0]?.value;
 					}
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
-					const newSeriesData = { records: [{ "id": seriesObj.degreeCode, "fields": tableFields }] };
 					if (seriesObj.degreeCode) {
-						helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
+						teablePush.push({ "id": seriesObj.degreeCode, "fields": tableFields });
 					}
 				});
 			}
 		}).catch(function (error){
 			console.log(error);
+		}).then(function () {
+			const newSeriesdata = {"fieldKeyType":"id","typecast":true,"records":teablePush};
+			helpers.axios.patch( teableUrl, newSeriesData, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
 		});
 	});
 
