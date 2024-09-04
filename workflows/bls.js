@@ -30,12 +30,17 @@ module.exports = async function ({helpers}){
 			if (response.status === 200) {
 				const series = response.data.Results.series;
 				series.forEach((entry) => {
-					console.log(entry);
-					const hourlyWage = entry.data[0]?.value;
+					const tableFields = {};
+					if (entry.seriesID.slice(-2) === '13') {
+						tableFields.annualWage = entry.data[0]?.value;
+					}
+					if (entry.seriesID.slice(-2) === '08') {
+						tableFields.hourlyWage = entry.data[0]?.value;
+					}
 					const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
 					console.log(hourlyWage);
 					if (seriesObj.degreeCode) {
-						console.log({ records: [{ "id": seriesObj.degreeCode, "fields": {"hourlyWage": hourlyWage} }] });
+						console.table({ records: [{ "id": seriesObj.degreeCode, "fields": tableFields }] });
 						// helpers.axios.patch( teableUrl, { records: [{ "id": seriesObj.degreeCode, "fields": {"hourlyWage":hourlyWage} }] }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
 					}
 				});
