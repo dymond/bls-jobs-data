@@ -27,7 +27,7 @@ module.exports = async function ({helpers}){
 			{ "seriesid": Object.values(allSeriesIds), "registrationkey": env_secrets.BLS_KEY2, latest:true }
 		).then(function (response){
 			if (response.status === 200) {
-				const hourlyWage = response.data.Results.series;
+				const hourlyWage = response.data;
 				console.log(hourlyWage);
 				// helpers.axios.patch( teableUrl, { hourlyWage: hourlyWage }, { headers: { "Authorization": `Bearer ${env_secrets.TEABLE_KEY}` }});
 			}
