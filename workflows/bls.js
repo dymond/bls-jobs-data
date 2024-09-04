@@ -43,10 +43,10 @@ module.exports = async function ({helpers}){
 								console.log(x.degreeCode);
 								if ( x.degreeCode ) {
 									if (entry.seriesID.slice(-2) === '08') {
-										teableData.push({"id":seriesObj.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
+										teableData.push({"id":x.recordId, "fields":{"hourlyWage": entry.data[0]?.value}});
 									}
 									if (entry.seriesID.slice(-2) === '13') {
-										teableData.push({"id":seriesObj.recordId, "fields":{"annualWage": entry.data[0]?.value}});
+										teableData.push({"id":x.recordId, "fields":{"annualWage": entry.data[0]?.value}});
 									}
 								}
 							}
