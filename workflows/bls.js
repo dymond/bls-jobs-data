@@ -20,7 +20,6 @@ module.exports = async function ({helpers}){
 					if (degreeData[key]) {
 						const code = degreeData['degreeCode'];
 						const seriesId = degreeData[key];
-						console.log(code)
 						allSeriesIds.push(seriesId);
 						allSeriesWithIds.push({recordId:recordId, degreeCode:code, seriesId:seriesId});
 					}
@@ -38,6 +37,7 @@ module.exports = async function ({helpers}){
 			).then(function (response){
 				if (response.status === 200) {
 					const series = response.data.Results.series;
+					console.log(series);
 					series.forEach((entry) => {
 						const seriesObj = allSeriesWithIds.find((x) => x.seriesId === entry.seriesID);
 						if ( seriesObj.degreeCode ) {
