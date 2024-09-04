@@ -1,4 +1,8 @@
 module.exports = async function ({helpers}){
+	const chunks = (array, size) =>
+    Array.from(
+        new Array(Math.ceil(a.length / size)), (_, i) => a.slice(i * size, i * size + size)
+    );
 	const env_secrets = JSON.parse(process.env['INPUT_JSON-SECRETS']);
 	const blsUrl = 'https://api.bls.gov/publicAPI/v2/timeseries/data/';
 	const teableUrl = 'https://app.teable.io/api/table/tblsWx24MUhM7JxkMNx/record';
@@ -25,11 +29,7 @@ module.exports = async function ({helpers}){
 	}).catch(function (error){
 		console.log(error);
 	}).then(function (result) {
-		const chunkies = [], perChunk = 50;
-		while (allSeriesIds.length > 0) {
-			chunkies.push(allSeriesWithIds.splice(0, perChunk));
-		}
-		console.log(chunkies);
+		console.log(chunks(allSeriesWithIds,50));
 		// helpers.axios.post(
 		// 	blsUrl,
 		// 	{ "seriesid": Object.values(allSeriesIds), "registrationkey": env_secrets.BLS_KEY2, latest:true }
