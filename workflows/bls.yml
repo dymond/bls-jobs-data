@@ -3,7 +3,6 @@ on:
     github_token: ${{secrets.GITHUB_TOKEN}}
     config:
       limit: 999
-      debug: true
     path: ./workflows/bls.js
 jobs:
   print:
